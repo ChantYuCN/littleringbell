@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: testgitops
+  name: testgitops
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 9
+  selector:
+    matchLabels:
+      app: testgitops
+  template:
+    metadata:
+      labels:
+        app: testgitops
+    spec:
+      containers:
+      - image: nginx:1.24
+        imagePullPolicy: IfNotPresent
+        name: testgitops
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      dnsPolicy: ClusterFirst
+
