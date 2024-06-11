@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: dry
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - name: updateca
+        image: chantyu/bindinghostanddownload:0.1
+        args:
+        - /usr/sbin/update-ca-certificates
+      - name: hello
+        image: chantyu/bindinghostanddownload:0.1
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - /usr/sbin/bindinghostanddownload  --local /foo --unzip no --remote https://artifactory-kfs.habana-labs.com/artifactory/system-hlsa-generic-dev-local/HL325/hl325-04-15-2024_hl-sa_3.3.5.0-nuc.7z
+        volumeMounts:
+        - mountPath: /foo
+          name: cloudimage
+          readOnly: false
+      restartPolicy: OnFailure
+      nodeSelector:
+        hello: world
+      volumes:
+      - name: cloudimage
+        hostPath:
+          path: /cloudimage 
+          type: Directory
+
