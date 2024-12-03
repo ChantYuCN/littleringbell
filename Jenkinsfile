@@ -45,7 +45,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'alphine hgello'
+                    sh 'ehco hgello'
                 }
             }
         }
