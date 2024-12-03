@@ -1,15 +1,8 @@
+// Create podtemplate with label jenkins-hllogmon-agent
+// add the pod lable in Cloud kubernetes Configuration jenkins/jenkins-hllogmon-agent
 pipeline {
     agent any
-
     stages {
-        // stage('Setup Parameter') {
-        //     steps {
-        //         echo 'Setting..'
-        //         script {
-
-        //         }
-        //     }
-        // }
         stage('Build') {
             steps {
                 echo 'Building..'
@@ -17,10 +10,28 @@ pipeline {
                 echo params.STAGE
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
+        stage('fetch log') {
+            agent {
+                kubernetes {
+                    yaml '''
+kind: Pod
+spec:
+    containers:
+    - name: chantk8s
+      image: busybox
+      command:
+      - sleep
+      args:
+      - 100
+      volumeMounts:
+      - name: task-hostpath-storage
+        mountPath: /mnt/
+    volumes:
+    - name: task-hostpath-storage
+      hostPath:
+      path: /home/labuser/habanashared
+      type: Directory
+'''
         }
         stage('Deploy') {
             steps {
