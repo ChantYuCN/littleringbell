@@ -32,6 +32,8 @@ spec:
       path: /home/labuser/habanashared
       type: Directory
 '''
+                }
+            }
         }
         stage('Deploy') {
             steps {
