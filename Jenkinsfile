@@ -30,9 +30,8 @@ spec:
       readOnly: false
   volumes:
   - name: task-hostpath-storage
-    hostPath:
-    path: /home/labuser/habanashared
-    type: Directory
+    persistentVolumeClaim:
+      claimName: hl-log-pvc
 '''           
         }
     }
@@ -41,7 +40,7 @@ spec:
             steps {
                 echo 'Building..'
                 echo params.SN
-                echo params.STAGE
+                echo params.Stage
             }
         }
         stage('Fetch log') { 
