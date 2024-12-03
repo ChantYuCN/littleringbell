@@ -45,20 +45,15 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'echo hellowww'
+                    sh 'alphine hgello'
                 }
             }
         }
         stage('Analyze log') {
             steps {
                 container('logmon') {
-                    sh 'echo k8s'
+                    sh '/home/logmonitor --conf /home/.taipei.json decision --file /mnt/logcsv'
                 }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
             }
         }
     }
