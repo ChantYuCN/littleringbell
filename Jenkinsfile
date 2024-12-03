@@ -1,19 +1,10 @@
 // Create podtemplate with label jenkins-hllogmon-agent
 // add the pod lable in Cloud kubernetes Configuration jenkins/jenkins-hllogmon-agent
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-                echo params.SN
-                echo params.STAGE
-            }
-        }
-        stage('Fetch log') { 
-            agent {
-                kubernetes {
-                    yaml '''
+pipeline { 
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yaml '''
 kind: Pod
 spec:
   containers:
@@ -26,25 +17,6 @@ spec:
     volumeMounts:
     - name: task-hostpath-storage
       mountPath: /mnt/
-  volumes:
-  - name: task-hostpath-storage
-    hostPath:
-    path: /home/labuser/habanashared
-    type: Directory
-'''           
-            }
-        }
-            steps {
-                sh 'echo hellowww'
-            }
-        }
-        stage('Analyze log') {
-            agent {
-                kubernetes {
-                    yaml '''
-kind: Pod
-spec:
-  containers:
   - name: logmon
     image: chant/habana.ai/hl-log-mon:0.1
     command:
@@ -59,11 +31,29 @@ spec:
     hostPath:
     path: /home/labuser/habanashared
     type: Directory
-'''
+'''           
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+                echo params.SN
+                echo params.STAGE
+            }
+        }
+        stage('Fetch log') { 
+            steps {
+                container('alpine') {
+                    sh 'echo hellowww'
                 }
             }
+        }
+        stage('Analyze log') {
             steps {
-                echo 'chant k8s try and error'
+                container('logmon') {
+                    sh 'echo k8s'
+                }
             }
         }
         stage('Deploy') {
