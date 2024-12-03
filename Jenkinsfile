@@ -10,7 +10,35 @@ pipeline {
                 echo params.STAGE
             }
         }
-        stage('fetch log') {
+        stage('Fetch log') { 
+            agent {
+                kubernetes {
+                    yaml '''
+kind: Pod
+spec:
+  containers:
+  - name: alpine
+    image: alpine:3.12
+    command:
+    - curl
+    args:
+    - 100
+    volumeMounts:
+    - name: task-hostpath-storage
+      mountPath: /mnt/
+  volumes:
+  - name: task-hostpath-storage
+    hostPath:
+    path: /home/labuser/habanashared
+    type: Directory
+'''           
+            }
+        }
+        steps {
+            sh 'curl http://10.227.108.26:31911/hello'
+        }
+
+        stage('Analyze log') {
             agent {
                 kubernetes {
                     yaml '''
