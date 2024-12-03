@@ -17,8 +17,8 @@ pipeline {
 kind: Pod
 spec:
     containers:
-    - name: chantk8s
-      image: busybox
+    - name: logmon
+      image: chant/habana.ai/hl-log-mon:0.1
       command:
       - sleep
       args:
