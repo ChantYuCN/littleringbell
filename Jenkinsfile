@@ -45,14 +45,15 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'echo hgello'
+                    sh 'ls /mnt'
                 }
             }
         }
         stage('Analyze log') {
             steps {
                 container('logmon') {
-                    sh '/home/logmonitor --conf /home/.taipei.json decision --file /mnt/logcsv'
+                    //sh '/home/logmonitor --conf /home/.taipei.json decision --file /mnt/logcsv'
+                    sh 'ls /mnt'
                 }
             }
         }
