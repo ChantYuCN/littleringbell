@@ -34,10 +34,10 @@ spec:
 '''           
             }
         }
-        steps {
-            sh 'curl http://10.227.108.26:31911/hello'
+            steps {
+                sh 'curl http://10.227.108.26:31911/hello'
+            }
         }
-
         stage('Analyze log') {
             agent {
                 kubernetes {
