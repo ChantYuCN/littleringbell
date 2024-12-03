@@ -35,7 +35,7 @@ spec:
             }
         }
             steps {
-                sh 'curl http://10.227.108.26:31911/hello'
+                sh 'echo hellowww'
             }
         }
         stage('Analyze log') {
