@@ -16,23 +16,26 @@ pipeline {
                     yaml '''
 kind: Pod
 spec:
-    containers:
-    - name: logmon
-      image: chant/habana.ai/hl-log-mon:0.1
-      command:
-      - sleep
-      args:
-      - 100
-      volumeMounts:
-      - name: task-hostpath-storage
-        mountPath: /mnt/
-    volumes:
+  containers:
+  - name: logmon
+    image: chant/habana.ai/hl-log-mon:0.1
+    command:
+    - sleep
+    args:
+    - 100
+    volumeMounts:
     - name: task-hostpath-storage
-      hostPath:
-      path: /home/labuser/habanashared
-      type: Directory
+      mountPath: /mnt/
+  volumes:
+  - name: task-hostpath-storage
+    hostPath:
+    path: /home/labuser/habanashared
+    type: Directory
 '''
                 }
+            }
+            steps {
+                echo 'chant k8s try and error'
             }
         }
         stage('Deploy') {
