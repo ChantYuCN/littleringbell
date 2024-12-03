@@ -17,6 +17,7 @@ spec:
     volumeMounts:
     - name: task-hostpath-storage
       mountPath: /mnt/
+      readOnly: false
   - name: logmon
     image: chant/habana.ai/hl-log-mon:0.1
     command:
@@ -26,6 +27,7 @@ spec:
     volumeMounts:
     - name: task-hostpath-storage
       mountPath: /mnt/
+      readOnly: false
   volumes:
   - name: task-hostpath-storage
     hostPath:
@@ -45,7 +47,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'ls /mnt'
+                    sh 'ls /'
                 }
             }
         }
