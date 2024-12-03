@@ -46,7 +46,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'ls /'
+                    sh 'touch /mnt/chant.test.pvpvc'
                 }
             }
         }
