@@ -20,7 +20,7 @@ spec:
   - name: alpine
     image: alpine:3.12
     command:
-    - curl
+    - sleep
     args:
     - 100
     volumeMounts:
