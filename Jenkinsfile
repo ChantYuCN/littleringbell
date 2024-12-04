@@ -1,6 +1,10 @@
 // Create podtemplate with label jenkins-hllogmon-agent
 // add the pod lable in Cloud kubernetes Configuration jenkins/jenkins-hllogmon-agent
 pipeline { 
+
+    environment {
+        HL_UUID = UUID.randomUUID().toString()
+    }
     agent {
         kubernetes {
             defaultContainer 'jnlp'
@@ -19,7 +23,10 @@ spec:
       mountPath: /mnt/
       readOnly: false
   - name: logmon
-    image: chant/habana.ai/hl-log-mon:0.1
+    env:
+    - name: HL_CICD_UUID
+      value: ${env.HL_UUID}
+    image: chant/habana.ai/hl-log-mon:0.2
     command:
     - sleep
     args:
@@ -46,7 +53,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'touch /mnt/chant.test.pvpvc'
+                    sh 'echo ${env.HL_UUID}'
                 }
             }
         }
@@ -54,7 +61,7 @@ spec:
             steps {
                 container('logmon') {
                     //sh '/home/logmonitor --conf /home/.taipei.json decision --file /mnt/logcsv'
-                    sh 'ls /mnt'
+                    sh 'echo $HL_CICD_UUID'
                 }
             }
         }
