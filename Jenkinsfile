@@ -51,8 +51,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('curla') {
-                    sh 'curl -X GET \
-                       10.227.108.26:31911/hello ; '
+                    sh 'ls '
                 }
             }
         }
