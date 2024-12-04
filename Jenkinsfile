@@ -13,9 +13,6 @@ kind: Pod
 spec:
   containers:
   - name: alpine
-    // env:
-    // - name: HL_CICD_UUID
-    //   value: ${HL_UUID}
     image: alpine:3.12
     command:
     - sleep
@@ -26,9 +23,6 @@ spec:
       mountPath: /mnt/
       readOnly: false
   - name: logmon
-    // env:
-    // - name: HL_CICD_UUID
-    //   value: ${HL_UUID}
     image: chant/habana.ai/hl-log-mon:0.2
     command:
     - sleep
@@ -57,7 +51,9 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'echo ${SN} ; echo $HL_CICD_UUID'
+                    sh 'echo ${SN} ; echo ${HL_UUID} ; curl -X GET \
+                       hl-artifact-svc.hl.svc.cluster.local:9911/hello \
+                       '
                 }
             }
         }
