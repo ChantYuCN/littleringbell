@@ -48,6 +48,9 @@ spec:
                 echo 'Building..'
                 echo params.SN
                 echo params.Stage
+                script{
+                    env.HL_UUID = UUID.randomUUID().toString()
+                }
             }
         }
         stage('Fetch log') { 
@@ -61,7 +64,7 @@ spec:
             steps {
                 container('logmon') {
                     //sh '/home/logmonitor --conf /home/.taipei.json decision --file /mnt/logcsv'
-                    sh 'echo $HL_CICD_UUID'
+                    sh 'env'
                 }
             }
         }
