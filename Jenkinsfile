@@ -57,7 +57,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'echo ${sparams.SN} ; echo $HL_CICD_UUID'
+                    sh 'echo ${SN} ; echo $HL_CICD_UUID'
                 }
             }
         }
