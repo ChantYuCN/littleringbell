@@ -25,7 +25,7 @@ spec:
   - name: logmon
     env:
     - name: HL_CICD_UUID
-      value: env.HL_UUID
+      value: ${HL_UUID}
     image: chant/habana.ai/hl-log-mon:0.2
     command:
     - sleep
