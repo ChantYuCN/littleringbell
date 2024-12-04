@@ -50,9 +50,9 @@ spec:
         }
         stage('Fetch log') { 
             steps {
-                container('alpine') {
+                container('curl') {
                     sh 'echo ${SN} ; echo ${HL_UUID} ; curl -X GET \
-                       hl-artifact-svc.hl.svc.cluster.local:9911/hello \
+                       hl-artifact-svc.hl.svc.cluster.local:9911/hello ;\
                        '
                 }
             }
