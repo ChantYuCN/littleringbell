@@ -53,7 +53,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'echo ${env.HL_UUID}'
+                    sh 'echo asdasd'
                 }
             }
         }
