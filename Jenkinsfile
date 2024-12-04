@@ -12,8 +12,8 @@ pipeline {
 kind: Pod
 spec:
   containers:
-  - name: alpine
-    image: alpine:3.12
+  - name: curl
+    image: curlimages/curl:8.11.0
     command:
     - sleep
     args:
