@@ -13,6 +13,9 @@ kind: Pod
 spec:
   containers:
   - name: alpine
+    env:
+    - name: HL_CICD_UUID
+      value: ${HL_UUID}
     image: alpine:3.12
     command:
     - sleep
@@ -49,15 +52,12 @@ spec:
                 echo params.SN
                 echo params.Stage
                 echo env.HL_UUID
-                script{
-                    env.HL_UUID = UUID.randomUUID().toString()
-                }
             }
         }
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    echo env.HL_UUID
+                    sh 'echo ${sparams.SN} ; echo $HL_CICD_UUID'
                 }
             }
         }
