@@ -52,7 +52,7 @@ spec:
             steps {
                 container('curl') {
                     sh 'echo ${SN} ; echo ${HL_UUID} ; curl -X GET \
-                       10.227.108.26:31911/hello ;\
+                       www.google.com ;\
                        '
                 }
             }
