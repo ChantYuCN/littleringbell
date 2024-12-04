@@ -48,6 +48,7 @@ spec:
                 echo 'Building..'
                 echo params.SN
                 echo params.Stage
+                echo env.HL_UUID
                 script{
                     env.HL_UUID = UUID.randomUUID().toString()
                 }
@@ -56,7 +57,7 @@ spec:
         stage('Fetch log') { 
             steps {
                 container('alpine') {
-                    sh 'echo asdasd'
+                    echo env.HL_UUID
                 }
             }
         }
