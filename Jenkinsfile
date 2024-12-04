@@ -12,7 +12,7 @@ pipeline {
 kind: Pod
 spec:
   containers:
-  - name: curl
+  - name: curla
     image: curlimages/curl:8.11.0
     command:
     - sleep
@@ -50,10 +50,9 @@ spec:
         }
         stage('Fetch log') { 
             steps {
-                container('curl') {
-                    sh 'echo ${SN} ; echo ${HL_UUID} ; curl -X GET \
-                       www.google.com ;\
-                       '
+                container('curla') {
+                    sh 'curl -X GET \
+                       10.227.108.26:31911/hello ; '
                 }
             }
         }
