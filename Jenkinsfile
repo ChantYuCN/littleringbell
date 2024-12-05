@@ -1,9 +1,12 @@
 // Create podtemplate with label jenkins-hllogmon-agent
 // add the pod lable in Cloud kubernetes Configuration jenkins/jenkins-hllogmon-agent
+
+
+
 pipeline { 
 
     environment {
-        HL_UUID = UUID.randomUUID().toString()
+        HL_CICD_UUID = UUID.randomUUID().toString()
     }
     agent {
         kubernetes {
@@ -12,16 +15,6 @@ pipeline {
 kind: Pod
 spec:
   containers:
-  - name: curla
-    image: curlimages/curl:8.11.0
-    command:
-    - sleep
-    args:
-    - 6
-    volumeMounts:
-    - name: task-hostpath-storage
-      mountPath: /mnt/
-      readOnly: false
   - name: logmon
     image: chant/habana.ai/hl-log-mon:0.2
     command:
@@ -45,13 +38,29 @@ spec:
                 echo 'Building..'
                 echo params.SN
                 echo params.Stage
-                echo env.HL_UUID
+                echo env.HL_CICD_UUID
             }
         }
-        stage('Fetch log') { 
+        stage('Fetch log') {
             steps {
-                container('curla') {
-                    sh 'ls '
+                script {
+                    def reqBody = """ 
+                        {"sn": "$SN","uuid": "$HL_CICD_UUID"}
+                    """
+                    def response = httpRequest httpMode: 'GET', 
+                                    contentType: 'APPLICATION_JSON',
+                                    requestBody: reqBody,
+                                    url: 'http://10.227.108.26:31911/filepath'
+                    println("Content: " + response.content)
+                    println(HL_CICD_UUID)
+                }
+            }
+            post {
+                success {
+                    echo("Folder found  " + params.SN )
+                }
+                failure {
+                    echo("Folder not found  " + params.SN )
                 }
             }
         }
